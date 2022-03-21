@@ -1,42 +1,39 @@
 package com.example.demo.domain.enums;
 
 public enum TipoCliente {
-	
-	PESSOAFISICA(1, "Pessoa Fisica"),
-	 PESSAOJURIDICA(2, "Pessoa Juridica");
 
+	PESSOAFISICA(1, "Pessoa Física"),
+	PESSOAJURIDICA(2, "Pessoa Jurídica");
+	
 	private int cod;
 	private String descricao;
 	
-	private TipoCliente(int cod, String descricao ) {
-		
+	private TipoCliente(int cod, String descricao) {
 		this.cod = cod;
-		this.descricao= descricao;
-		
+		this.descricao = descricao;
 	}
-
+	
 	public int getCod() {
 		return cod;
 	}
-
-	public String getDescricao() {
+	
+	public String getDescricao () {
 		return descricao;
 	}
 	
-	
-	public static TipoCliente toEnum(Integer cod) throws IllegalAccessException {
+	public static TipoCliente toEnum(Integer cod) {
+		
 		if (cod == null) {
 			return null;
 		}
 		
-		for(TipoCliente x : TipoCliente.values()) {
-		if(cod.equals(x.getCod())) {
-			return x;
-		}	
+		for (TipoCliente x : TipoCliente.values()) {
+			if (cod.equals(x.getCod())) {
+				return x;
+			}
 		}
 		
-		throw new IllegalAccessException("Id Invãlido " + cod);
+		throw new IllegalArgumentException("Id inválido: " + cod);
 	}
-	
 	
 }

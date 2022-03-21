@@ -7,7 +7,9 @@ import java.util.List;
 import java.util.Objects;
 import java.util.Set;
 
+import javax.persistence.CascadeType;
 import javax.persistence.CollectionTable;
+import javax.persistence.Column;
 import javax.persistence.ElementCollection;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
@@ -16,7 +18,8 @@ import javax.persistence.Id;
 import javax.persistence.OneToMany;
 
 import com.example.demo.domain.enums.TipoCliente;
-import com.fasterxml.jackson.annotation.JsonManagedReference;
+import com.fasterxml.jackson.annotation.JsonIgnore;
+
 @Entity
 public class Cliente implements Serializable {
 
@@ -26,18 +29,25 @@ public class Cliente implements Serializable {
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Integer id;
 	private String nome;
+	
+	@Column(unique = true)
 	private String email;
 	private String cnpOUcnpj;
 	private Integer tipo;
 	
 	
-	@JsonManagedReference
-	@OneToMany(mappedBy = "cliente")
+	
+	//quando quiser apaga com cascata = cascade=CascadeType.ALL
+	@OneToMany(mappedBy = "cliente", cascade=CascadeType.ALL)
 	private List<Endereco> endereco = new ArrayList<>();
 	
 	@ElementCollection
 	@CollectionTable(name = "TELEFONE")
 	private Set<String> telefones = new HashSet<>();
+	
+	@JsonIgnore
+	@OneToMany(mappedBy="cliente")
+	private List<Pedido> pedidos = new ArrayList<>();
 
 	public Cliente() {
 		// TODO Auto-generated constructor stub
@@ -49,7 +59,7 @@ public class Cliente implements Serializable {
 		this.nome = nome;
 		this.email = email;
 		this.cnpOUcnpj = cnpOUcnpj;
-		this.tipo = tipo.getCod();
+		this.tipo = (tipo == null) ? null : tipo.getCod();
 	}
 
 	public Integer getId() {
@@ -61,7 +71,7 @@ public class Cliente implements Serializable {
 	}
 
 	public String getNome() {
-		return nome;
+		return null;
 	}
 
 	public void setNome(String nome) {
@@ -78,6 +88,18 @@ public class Cliente implements Serializable {
 
 	public String getCnpOUcnpj() {
 		return cnpOUcnpj;
+	}
+	
+	public void setCnpOUcnpj(String cnpOUcnpj) {
+		this.cnpOUcnpj = cnpOUcnpj;
+	}
+	
+	public List<Pedido> getPedidos() {
+		return pedidos;
+	}
+
+	public void setPedidos(List<Pedido> pedidos) {
+		this.pedidos = pedidos;
 	}
 
 	@Override
@@ -97,9 +119,7 @@ public class Cliente implements Serializable {
 		return Objects.equals(id, other.id);
 	}
 
-	public void setCnpOUcnpj(String cnpOUcnpj) {
-		this.cnpOUcnpj = cnpOUcnpj;
-	}
+	
 
 	public TipoCliente getTipo() throws IllegalAccessException {
 		return TipoCliente.toEnum(tipo);
@@ -124,5 +144,7 @@ public class Cliente implements Serializable {
 	public void setTelefones(Set<String> telefones) {
 		this.telefones = telefones;
 	}
+
+	
 
 }

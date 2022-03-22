@@ -35,6 +35,9 @@ public class Cliente implements Serializable {
 	private String cnpOUcnpj;
 	private Integer tipo;
 	
+	@JsonIgnore
+	private String senha;
+	
 	
 	
 	//quando quiser apaga com cascata = cascade=CascadeType.ALL
@@ -53,15 +56,24 @@ public class Cliente implements Serializable {
 		// TODO Auto-generated constructor stub
 	}
 
-	public Cliente(Integer id, String nome, String email, String cnpOUcnpj, TipoCliente tipo) {
+	public Cliente(Integer id, String nome, String email, String cnpOUcnpj, TipoCliente tipo, String senha) {
 		super();
 		this.id = id;
 		this.nome = nome;
 		this.email = email;
 		this.cnpOUcnpj = cnpOUcnpj;
 		this.tipo = (tipo == null) ? null : tipo.getCod();
+		this.senha = senha;
 	}
 
+	
+	public String getSenha() {
+		return senha;
+	}
+
+	public void setSenha(String senha) {
+		this.senha = senha;
+	}
 	public Integer getId() {
 		return id;
 	}
@@ -101,26 +113,8 @@ public class Cliente implements Serializable {
 	public void setPedidos(List<Pedido> pedidos) {
 		this.pedidos = pedidos;
 	}
-
-	@Override
-	public int hashCode() {
-		return Objects.hash(id);
-	}
-
-	@Override
-	public boolean equals(Object obj) {
-		if (this == obj)
-			return true;
-		if (obj == null)
-			return false;
-		if (getClass() != obj.getClass())
-			return false;
-		Cliente other = (Cliente) obj;
-		return Objects.equals(id, other.id);
-	}
-
 	
-
+	
 	public TipoCliente getTipo() throws IllegalAccessException {
 		return TipoCliente.toEnum(tipo);
 	}
@@ -145,6 +139,29 @@ public class Cliente implements Serializable {
 		this.telefones = telefones;
 	}
 
+	
+
+
+	@Override
+	public int hashCode() {
+		return Objects.hash(id);
+	}
+
+	@Override
+	public boolean equals(Object obj) {
+		if (this == obj)
+			return true;
+		if (obj == null)
+			return false;
+		if (getClass() != obj.getClass())
+			return false;
+		Cliente other = (Cliente) obj;
+		return Objects.equals(id, other.id);
+	}
+
+	
+
+	
 	
 
 }

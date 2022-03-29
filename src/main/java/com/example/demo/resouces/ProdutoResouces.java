@@ -41,7 +41,6 @@ public class ProdutoResouces {
 			@RequestParam(value = "linesPerPage", defaultValue = "24")Integer linesPerPage,
 			@RequestParam(value = "orderBy", defaultValue = "nome")String orderBy, 
 			@RequestParam(value = "direction", defaultValue = "ASC")String direction) {
-		String nomeDecoded = URL.decodeParam(nome);
 		List<Integer> ids = URL.decodeList(categorias);
 		Page<Produto> list = service.search(nome, ids, page, linesPerPage, orderBy, direction);
 		Page<ProdutoDTO> listDto = list.map(obj -> new ProdutoDTO(obj));

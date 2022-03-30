@@ -64,6 +64,7 @@ public class ClienteResouces {
 		return ResponseEntity.noContent().build();
 	}
 	
+	@PreAuthorize("hasAnyRole('ADMIN')")
 	@RequestMapping( method = RequestMethod.GET)
 	public ResponseEntity<List<ClienteDTO>> findAll() {
 

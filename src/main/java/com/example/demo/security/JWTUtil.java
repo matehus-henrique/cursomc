@@ -1,16 +1,13 @@
 package com.example.demo.security;
 
-import java.nio.charset.StandardCharsets;
 import java.util.Date;
 
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Component;
 
-import com.auth0.jwt.JWT;
-import com.auth0.jwt.algorithms.Algorithm;
-
 import io.jsonwebtoken.Claims;
 import io.jsonwebtoken.Jwts;
+import io.jsonwebtoken.SignatureAlgorithm;
 
 @Component
 public class JWTUtil {
@@ -25,11 +22,11 @@ public class JWTUtil {
 	public String generateToken(String username) {
 		
 		  
-		  return JWT.create()
-		           .withSubject(username)
-		           .withExpiresAt(new Date(System.currentTimeMillis() + expiration))
-		           .sign(Algorithm.HMAC512(secret.getBytes(StandardCharsets.UTF_8)));
-		
+		return Jwts.builder()
+				.setSubject(username)
+				.setExpiration(new Date(System.currentTimeMillis() + expiration))
+				.signWith(SignatureAlgorithm.HS512, secret.getBytes())
+				.compact();
 	}
 	
 	public boolean tokenValido(String token) {
@@ -53,7 +50,7 @@ public class JWTUtil {
 		return null;
 	}
 	
-	@SuppressWarnings("deprecation")
+	
 	private Claims getClaims(String token) {
 		try {
 			return Jwts.parser().setSigningKey(secret.getBytes()).parseClaimsJws(token).getBody();

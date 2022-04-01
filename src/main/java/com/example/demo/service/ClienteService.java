@@ -127,7 +127,7 @@ public class ClienteService {
 		this.cidadeRepository = cidadeRepository;
 	}
 
-	public static Cliente find(Integer id) {
+	public  Cliente find(Integer id) {
 		// TODO Auto-generated method stub
 		return null;
 	}

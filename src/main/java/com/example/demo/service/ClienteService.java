@@ -1,5 +1,6 @@
 package com.example.demo.service;
 
+import java.net.URI;
 import java.util.List;
 import java.util.Optional;
 
@@ -10,6 +11,7 @@ import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Sort.Direction;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
+import org.springframework.web.multipart.MultipartFile;
 
 import com.example.demo.domain.Cidade;
 import com.example.demo.domain.Cliente;
@@ -40,6 +42,9 @@ public class ClienteService {
 	
 	@Autowired
 	private EnderecoRepository enderecoRepository;
+	
+	@Autowired
+	private S3Service s3service;
 	
 	// find = a buscar.
 	public Cliente busca(Integer id) {
@@ -127,9 +132,10 @@ public class ClienteService {
 		this.cidadeRepository = cidadeRepository;
 	}
 
-	public  Cliente find(Integer id) {
-		// TODO Auto-generated method stub
-		return null;
+	
+	
+	public URI uploadProfilePicture(MultipartFile multipartFile) {
+		return s3service.uploadFile(multipartFile);
 	}
 }
 

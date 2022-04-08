@@ -48,6 +48,8 @@ public class Cliente implements Serializable {
 	private List<Endereco> endereco = new ArrayList<>();
 	
 	
+	private String imageUrl;
+	
 	
 	@ElementCollection
 	@CollectionTable(name = "TELEFONE")
@@ -183,6 +185,14 @@ public class Cliente implements Serializable {
 			return false;
 		Cliente other = (Cliente) obj;
 		return Objects.equals(id, other.id);
+	}
+
+	public String getImageUrl() {
+		return imageUrl;
+	}
+
+	public void setImageUrl(String imageUrl) {
+		this.imageUrl = imageUrl;
 	}
 
 	
